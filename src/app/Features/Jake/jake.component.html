@@ -1,0 +1,92 @@
+<h3></h3>
+
+<section class="bg">
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="heroes"
+    [allowColumnReordering]="true">
+
+    <dxi-column dataField="CompanyName"></dxi-column>
+    <dxi-column dataField="Phone"></dxi-column>
+    <dxi-column dataField="Fax"></dxi-column>
+    <dxi-column dataField="City"></dxi-column>
+    <dxi-column dataField="State" [groupIndex]="0"></dxi-column>
+
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+
+    </dx-data-grid>
+</section>
+
+<section class="bg">
+  <div
+    class="apply-filter-option"
+    [style.display]="showFilterRow ? 'block' : 'none'">
+    <span>Apply Filter</span>
+    <dx-select-box #applyFilter
+                   id="useFilterApplyButton"
+                   [items]="applyFilterTypes"
+                   [value]="applyFilterTypes[0].key"
+                   valueExpr="key"
+                   displayExpr="name"></dx-select-box>
+  </div>
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="orders">
+    <dxo-export [enabled]="true" fileName="Employees" [allowExportSelectedData]="true"></dxo-export>
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-filter-row
+      [visible]="showFilterRow"
+      [applyFilter]="applyFilter.value"></dxo-filter-row>
+    <dxo-header-filter
+      [visible]="showHeaderFilter"></dxo-header-filter>
+    <dxo-search-panel
+      [visible]="true"
+      [width]="240"
+      placeholder="Search..."></dxo-search-panel>
+    <dxi-column
+      dataField="OrderNumber"
+      [width]="130"
+      caption="Invoice Number">
+      <dxo-header-filter
+        [groupInterval]="10000"></dxo-header-filter>
+    </dxi-column>
+    <dxi-column
+      dataField="OrderDate"
+      alignment="right"
+      dataType="date">
+      <dxo-header-filter
+        [dataSource]="orderHeaderFilter"></dxo-header-filter>
+    </dxi-column>
+    <dxi-column
+      dataField="SaleAmount"
+      alignment="right"
+      format="currency">
+      <dxo-header-filter
+        [dataSource]="saleAmountHeaderFilter"></dxo-header-filter>
+    </dxi-column>
+    <dxi-column dataField="Employee"></dxi-column>
+    <dxi-column
+      dataField="CustomerStoreCity"
+      caption="City"></dxi-column>
+    <dxi-column
+      dataField="CustomerStoreState"
+      caption="State"></dxi-column>
+  </dx-data-grid>
+  <div class="options">
+    <div>
+      <dx-check-box
+        text="Filter Row"
+        [(value)]="showFilterRow"
+        (onValueChanged)="clearFilter()"></dx-check-box>
+    </div>
+    <div>
+      <dx-check-box
+        text="Header Filter"
+        [(value)]="showHeaderFilter"
+        (onValueChanged)="clearFilter()"></dx-check-box>
+    </div>
+  </div>
+</section>
